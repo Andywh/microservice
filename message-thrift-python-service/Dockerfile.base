@@ -1,0 +1,4 @@
+FROM python:3.6
+MAINTAINER songliang isongliang@qq.com
+
+RUN pip install thrift
