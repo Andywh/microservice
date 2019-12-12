@@ -31,4 +31,10 @@ public class CourseController {
         return courseService.courseList();
     }
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public String test() {
+        return "course-edge-service";
+    }
+
 }

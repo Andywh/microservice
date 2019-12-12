@@ -50,9 +50,12 @@ public abstract class LoginFilter implements Filter {
         }
 
         log.info("token2: {}", token);
+        log.info("test");
         UserDTO userDTO = null;
         if (StringUtils.isNotBlank(token)) {
+            log.info("before cache get");
             userDTO = cache.getIfPresent(token);
+            log.info("after cache get");
             if (userDTO == null) {
                 userDTO = requestUserInfo(token);
                 if (userDTO != null) {
@@ -64,6 +67,7 @@ public abstract class LoginFilter implements Filter {
         if (userDTO == null) {
             log.info("userDTO==null");
             response.sendRedirect("http://www.joy.com/user/login");
+//            response.sendRedirect("http://user-edge-service:8082/user/login");
             return;
         }
 
@@ -113,12 +117,12 @@ public abstract class LoginFilter implements Filter {
 //        }
 //
 //        return null;
-        String url = "http://127.0.0.1:8082/user/authentication";
-
+        String url = "http://www.joy.com/user/authentication";
         HttpClient client = new DefaultHttpClient();
         HttpPost post = new HttpPost(url);
         post.addHeader("token", token);
         InputStream inputStream = null;
+        log.info("begin post");
         try {
             HttpResponse response = client.execute(post);
             if(response.getStatusLine().getStatusCode()!= HttpStatus.SC_OK) {
@@ -131,6 +135,7 @@ public abstract class LoginFilter implements Filter {
             while((len = inputStream.read(temp))>0) {
                 sb.append(new String(temp,0,len));
             }
+            log.info("userinfo: {}", sb.toString());
 
             UserDTO userDTO = new ObjectMapper().readValue(sb.toString(), UserDTO.class);
             return userDTO;

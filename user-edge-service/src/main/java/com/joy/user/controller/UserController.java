@@ -38,7 +38,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-        return "/login";
+        return "login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -85,6 +85,7 @@ public class UserController {
             } else {
                 return ResponseUtil.error(ResultEnum.MOBILE_OR_EMAIL_REQUIRED);
             }
+
             if (!result) {
                 return ResponseUtil.error(ResultEnum.SEND_VERIFYCODE_FAILED);
             }
